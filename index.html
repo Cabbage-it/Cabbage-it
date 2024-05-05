@@ -1,23 +1,76 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <script type="application/javascript">
-      function draw() {
-        var canvas = document.getElementById("canvas");
-        if (canvas.getContext) {
-          var ctx = canvas.getContext("2d");
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>nodeValue</title>
+<style>
+p {
+  text-align: center;
+}
 
-          ctx.fillStyle = "rgb(200, 0, 0)";
-          ctx.fillRect(10, 10, 50, 50);
+div {
+  text-align: center;
+}
 
-          ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-          ctx.fillRect(30, 30, 50, 50);
+button {
+  text-align: center;
+}
+
+</style>
+</head>
+<body>
+
+<div id="blog">
+  <p>素因数分解します</p>
+  <p id="msg"></p>
+  <input type="number" id="txt">
+  <p></p>
+  <button onClick="getElements();">分解</button>
+  <p>いまのところ精度はJavascriptの仕様で14桁程度です。</p>
+</div>
+
+
+<script>
+function getElements(){
+    msg.innerText = '結果は' + prime(Number(txt.value) )+ 'です';
+}
+
+function prime(n){
+    if (n===0){return 0;}
+    else if (n%2 === 0){
+         i=prime(n/2)
+         i.unshift(2)
+         return i
+    }
+    else if (n%3 === 0){
+         i=prime(n/3)
+         i.unshift(3)
+         return i
+    }
+    p=Math.floor(Math.sqrt(n)/6);
+    for (let j = 1; j <= p+1; j++){
+        if (n%(6*j-1)===0){
+            i=prime(n/(6*j-1));
+            i.unshift(6*j-1);
+            return i;
+        }else if (n%(6*j+1)===0){
+            i=prime(n/(6*j+1));
+            i.unshift(6*j+1);
+            return i;
         }
-      }
-    </script>
-  </head>
-  <body onload="draw();">
-    <canvas id="canvas" width="150" height="150"></canvas>
-  </body>
+    }
+    if (n === 1){
+        return [];
+    }else{
+        return [n]
+    }
+}
+
+
+
+
+let txt = document.getElementById('txt');
+let msg = document.getElementById('msg');
+</script>
+</body>
 </html>
